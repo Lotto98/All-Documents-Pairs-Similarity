@@ -4,17 +4,17 @@ from beir import util
 import os
 import pathlib
 
-from typing import List
+from typing import List, Tuple
 
 from multiprocessing import Pool
 
-from tqdm.notebook import tqdm
+from tqdm.autonotebook import tqdm
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 import spacy
 
-def data_preparation(dataset: str) -> List[str]:
+def data_preparation(dataset: str) -> Tuple[List[str],List]:
     """
     Download the given dataset from beir and transform it in a list of concatenated titles and texts.
 
@@ -48,13 +48,16 @@ def document_cleaning(corpus):
                                                 desc="documents cleaning"))
     return cleaned_corpus
 
+def getVectorized(cleaned_corpus):
+    vectorizer = TfidfVectorizer()
+
+    return vectorizer.fit_transform(cleaned_corpus)
+
 def preprocessing_normal(corpus,keys,sc):
     
     cleaned_corpus=document_cleaning(corpus)
     
-    vectorizer = TfidfVectorizer()
-
-    X = vectorizer.fit_transform(cleaned_corpus)
+    X = getVectorized(cleaned_corpus)
 
     vectorized_docs=[]
     for index in range(0,len(corpus)):
