@@ -16,7 +16,7 @@ def sequential(X, corpus, keys, threshold):
     
         index__doc_id_map=dict(zip(range(0,len(corpus)),keys))
         
-        np.fill_diagonal(scores, 0)
+        np.fill_diagonal(scores, -1)
         
         pairs = np.argwhere(scores >= threshold)
         
@@ -35,34 +35,71 @@ def spark_(X, corpus, keys, threshold):
     vectorized_docs=[]
     for index in range(0,len(corpus)):
         vectorized_docs.append(X.getrow(index))
+        
+    print("SPARK COMPUTATION START")
+    
+    threshold=sc.broadcast(threshold)
 
     keys_rdd=sc.parallelize(keys)
     vectorized_docs_rdd=keys_rdd.zip(sc.parallelize(vectorized_docs)).persist()
+    
+    def compute_d_star(doc1, doc2):
+        
+        return doc1.maximum(doc2)
+    
+    d_star=sc.broadcast(vectorized_docs_rdd.values().reduce(compute_d_star))
+    print("d* COMPUTATION DONE")
     
     def Map(doc_pair):
     
         id, doc = doc_pair
         
-        non_zero_terms=doc.nonzero()
+        non_zero_terms=doc.nonzero()[1]
+        
+        sorted_indexes=np.argsort(doc.toarray())[::-1][0]
+        
+        non_zero_terms_sorted=doc[:,sorted_indexes].nonzero()[1]
+        
+        mapping=dict(zip(non_zero_terms_sorted,non_zero_terms))
+        
+        dot_prod=0
+        
+        term_iterator=iter(non_zero_terms_sorted)
+        current=next(term_iterator,None)
+        prev=None
+        
+        while(dot_prod<threshold.value):
+            
+            if current is None:
+                return []
+            
+            prev=current
+            
+            dot_prod+=doc[:,sorted_indexes][0,current]*d_star.value[:,sorted_indexes][0,current]
+            current=next(term_iterator,None)
         
         term__doc_ids=[]
         
-        for term_index in non_zero_terms[1]:
-            term__doc_ids.append((term_index,id))
+        if prev is not None:
+            term__doc_ids.append((mapping[prev],id))
+        
+        while(current is not None):
+            term__doc_ids.append((mapping[current],id))
+            current=next(term_iterator,None)
         
         return term__doc_ids
 
     term_listDocIds_pairs_rdd=vectorized_docs_rdd.flatMap(Map).groupByKey()
-    print("GROUP BY KEY DONE")
+    print("MY MAP & GROUP BY KEY DONE")
     
-    def bho1(doc):
+    def term_set(doc):
         
         return set(doc.nonzero()[1])
     
-    doc_id_set_term=sc.broadcast(dict(vectorized_docs_rdd.mapValues(bho1).collect()))
+    doc_id_set_term=sc.broadcast(dict(vectorized_docs_rdd.mapValues(term_set).collect()))
     print("TERM SETS DONE")
     
-    def bho(pair):
+    def filter_pairs(pair):
         
         term_id, id_list = pair
         
@@ -70,18 +107,17 @@ def spark_(X, corpus, keys, threshold):
         
         for id1, id2 in itertools.combinations(id_list,2):
             
-            if max(doc_id_set_term.value[id1] & doc_id_set_term.value[id2])==term_id:
+            common_terms=doc_id_set_term.value[id1] & doc_id_set_term.value[id2]
+            
+            if max(common_terms)==term_id:
                 pairs.append((id1,id2))
         
         return pairs
 
-    doc_ids_pairs_rdd=term_listDocIds_pairs_rdd.flatMap(bho)
-    print("FILTER DONE")
+    doc_ids_pairs_rdd=term_listDocIds_pairs_rdd.flatMap(filter_pairs)
     
     vectorized_docs_broadcast=sc.broadcast(dict(vectorized_docs_rdd.collect()))
     print("VECTORIZATION DONE")
-    
-    threshold=sc.broadcast(threshold)
 
     def Reduce(pair):
         
@@ -95,7 +131,7 @@ def spark_(X, corpus, keys, threshold):
         
         _, similarity = pair
         
-        return similarity>=threshold.value
+        return similarity >= threshold.value
 
     similarity_doc_pairs=doc_ids_pairs_rdd.map(Reduce).filter(similar_doc)
     
@@ -106,8 +142,8 @@ def main(threshold):
     
     corpus, keys = data_preparation("scifact")
     
-    #corpus=corpus[0:500]
-    #keys=keys[0:500]
+    corpus=corpus[0:1000]
+    keys=keys[0:1000]
     
     cleaned_corpus = document_cleaning(corpus)
     
@@ -120,16 +156,15 @@ def main(threshold):
     start_seq=time.perf_counter()
     seq_list=sequential(X,corpus,keys,threshold)
     end_seq=time.perf_counter()
-    
-    missing_seq=set(spark_list)-set(seq_list)
-    print(missing_seq)
 
+    #print(set(spark_list))
+    #print()
     missing_spark=set(seq_list)-set(spark_list)
-    print(missing_spark)
+    print("spark missing: ",missing_spark)
     
-    print("spark: ",end_spark-start_spark)
-    print("seq: ",end_seq-start_seq)
+    print("\nspark time: ",end_spark-start_spark)
+    print("seq time: ",end_seq-start_seq)
     
 if __name__ == '__main__':
     # This code won't run if this file is imported.
-    main(0.3)
+    main(0.000001)
