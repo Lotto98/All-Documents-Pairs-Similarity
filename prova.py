@@ -26,10 +26,10 @@ def sequential(X, corpus, keys, threshold):
     
     return documents_pairs(scores.toarray(), threshold)
     
-def spark_(X, corpus, keys, threshold):
+def spark_(X, corpus, keys, threshold, n_slices=5, n_workers=8):
     
     # Create SparkSession 
-    spark = SparkSession.builder.master("local[8]").appName("all-doc-pairs-similarity.com").config("spark.driver.memory", "10g").getOrCreate()
+    spark = SparkSession.builder.master("local["+str(n_workers)+"]").appName("all-doc-pairs-similarity.com").config("spark.driver.memory", "10g").getOrCreate()
     sc = spark.sparkContext
     
     vectorized_docs=[]
@@ -40,8 +40,8 @@ def spark_(X, corpus, keys, threshold):
     
     threshold=sc.broadcast(threshold)
 
-    keys_rdd=sc.parallelize(keys)
-    vectorized_docs_rdd=keys_rdd.zip(sc.parallelize(vectorized_docs)).persist()
+    keys_rdd=sc.parallelize(keys, n_workers*n_slices)
+    vectorized_docs_rdd=keys_rdd.zip(sc.parallelize(vectorized_docs, n_workers*n_slices)).persist()
     
     def compute_d_star(doc1, doc2):
         
@@ -142,8 +142,8 @@ def main(threshold):
     
     corpus, keys = data_preparation("scifact")
     
-    corpus=corpus[0:1000]
-    keys=keys[0:1000]
+    corpus=corpus
+    keys=keys
     
     cleaned_corpus = document_cleaning(corpus)
     
