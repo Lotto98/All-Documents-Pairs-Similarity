@@ -1,0 +1,1800 @@
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  2
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  7.675900646998343
+seq time:  0.0010436339980515186
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  2
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.047848078000243
+seq time:  0.0009765260001586284
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  2
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.374750643997686
+seq time:  0.0009800420011742972
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  2
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.652402931002143
+seq time:  0.003019049996510148
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  2
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.7715936380009225
+seq time:  0.0009876219992293045
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  4
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  3.045667181999306
+seq time:  0.004131508998398203
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  4
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  3.4472159260003536
+seq time:  0.0009740579989738762
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  4
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.103333509996446
+seq time:  0.0008915920006984379
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  4
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.447744454999338
+seq time:  0.0009884880018944386
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  4
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  5.0187686270000995
+seq time:  0.000992598997981986
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  6
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  3.276734334001958
+seq time:  0.0015420529998664279
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  6
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  3.9124816059993464
+seq time:  0.0009824190019571688
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  6
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.465993731999333
+seq time:  0.0029384640001808293
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  6
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  5.029257197002153
+seq time:  0.0009894989998429082
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  6
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  5.636316617998091
+seq time:  0.001003311001113616
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  8
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  3.3057977680000477
+seq time:  0.0009950950006896164
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  8
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.181322552001802
+seq time:  0.0009618580006645061
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  8
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.881650076997175
+seq time:  0.0009804959991015494
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  8
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  5.614919027000724
+seq time:  0.0009835209966695402
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  8
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  6.729386183997121
+seq time:  0.0009889969987852965
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  10
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  3.6358618049998768
+seq time:  0.0009750309982337058
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  10
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.543318755997461
+seq time:  0.0020272329966246616
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  10
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  5.636718183999619
+seq time:  0.0010069559975818265
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  10
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  6.396974770999805
+seq time:  0.002169203999073943
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  10
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  7.522256235999521
+seq time:  0.0009944720004568808
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  12
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  3.882645671001228
+seq time:  0.0015153829990595113
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  12
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.92616666899994
+seq time:  0.0009826179993979167
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  12
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  6.041278300999693
+seq time:  0.0014015160013514105
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  12
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  7.306654798001546
+seq time:  0.0012891839978692587
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  12
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  8.360028887000226
+seq time:  0.0009834570009843446
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  14
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.061407479999616
+seq time:  0.003879596002661856
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  14
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  5.348183472000528
+seq time:  0.0029539679999288637
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  14
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  6.630426813000668
+seq time:  0.000988404000963783
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  14
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  7.947745209999994
+seq time:  0.0009819109982345253
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  14
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  9.298923007998383
+seq time:  0.0009912569985317532
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  16
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.230692996003199
+seq time:  0.0035704959991562646
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  16
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  5.589489820999006
+seq time:  0.0009586829983163625
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  16
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  7.173997525998857
+seq time:  0.004012497996882303
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  16
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  8.514397820999875
+seq time:  0.0009182640023936983
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  16
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  10.230083767000906
+seq time:  0.0009966780016839039
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  18
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.483797660002892
+seq time:  0.0009940579984686337
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  18
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  6.275021049998031
+seq time:  0.0009784819994820282
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  18
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  7.81715739900028
+seq time:  0.002939087000413565
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  18
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  9.467550522000238
+seq time:  0.001308806000452023
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  18
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  11.124945837997075
+seq time:  0.0009971799991035368
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  20
+n_slices:  1
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  4.579142470996885
+seq time:  0.0009846369976003189
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  20
+n_slices:  2
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  6.57611564400213
+seq time:  0.0009500679989287164
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  20
+n_slices:  3
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  8.385800176001794
+seq time:  0.0027046169998357072
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  20
+n_slices:  4
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  10.129214851000143
+seq time:  0.0023972739982127678
+
+
+TEST FOR:
+threshold:  0.3
+n_workers:  20
+n_slices:  5
+
+spark result len: 4 seq result len: 4
+spark missing pairs:  set()
+
+spark time:  11.94425807999869
+seq time:  0.0010563779978838284
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  2
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.526869283999986
+seq time:  0.0009814519980864134
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  2
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.7399454100013827
+seq time:  0.0009761229994182941
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  2
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.108754623001005
+seq time:  0.0009976830006053206
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  2
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.467846403000294
+seq time:  0.0009703459982119966
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  2
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.729863501001091
+seq time:  0.0009299279990955256
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  4
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.0195840089982084
+seq time:  0.0009682630006864201
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  4
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.4668196870006796
+seq time:  0.0009824780026974622
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  4
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.8096194390018354
+seq time:  0.0010065759997814894
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  4
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.321370458001184
+seq time:  0.003534941999532748
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  4
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.830088147999049
+seq time:  0.000994050998997409
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  6
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.3210837009974057
+seq time:  0.000884840999788139
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  6
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.853156394998223
+seq time:  0.001104508999560494
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  6
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.371244129000843
+seq time:  0.0010291859980497975
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  6
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.942470146001142
+seq time:  0.001498614001320675
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  6
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  5.416944566000893
+seq time:  0.0009384090008097701
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  8
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.315993489999528
+seq time:  0.0009751099969435018
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  8
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.04400189199805
+seq time:  0.0009663739983807318
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  8
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.818069998997089
+seq time:  0.0009853759984252974
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  8
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  5.751659860998188
+seq time:  0.000971700999798486
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  8
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  6.337199709003471
+seq time:  0.0009720999987621326
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  10
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.628003907000675
+seq time:  0.0035682050001923926
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  10
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.440636231000099
+seq time:  0.0009222660009982064
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  10
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  5.3394301459993585
+seq time:  0.0009824620028666686
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  10
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  6.465496098000585
+seq time:  0.0009504310000920668
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  10
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  7.289465556998039
+seq time:  0.000903069998457795
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  12
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  3.79480261199933
+seq time:  0.0009127669982262887
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  12
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.858194540996919
+seq time:  0.0014118360013526399
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  12
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  6.052459531001659
+seq time:  0.0009792599994398188
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  12
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  7.051664268998138
+seq time:  0.000988858999335207
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  12
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  8.077068847000191
+seq time:  0.0019715620001079515
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  14
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.119913974001975
+seq time:  0.0010018339999078307
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  14
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  5.3828020179971645
+seq time:  0.0009797300008358434
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  14
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  6.640525948998402
+seq time:  0.0009723599978315178
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  14
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  7.778568591998919
+seq time:  0.003449727999395691
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  14
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  9.133810739000182
+seq time:  0.0009789120013010688
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  16
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.353934736998781
+seq time:  0.000979364001977956
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  16
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  5.707132884999737
+seq time:  0.0009879749995889142
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  16
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  7.079820219001704
+seq time:  0.0008885940005711745
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  16
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  8.543532981999306
+seq time:  0.0009390710001753177
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  16
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  10.072342773000855
+seq time:  0.0009790160002012271
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  18
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.440414526998211
+seq time:  0.001256914998521097
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  18
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  6.128867384999467
+seq time:  0.0029014389983785804
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  18
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  7.6237407910011825
+seq time:  0.0009807729984459002
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  18
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  9.385489365999092
+seq time:  0.0011662629985949025
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  18
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  10.965668011998787
+seq time:  0.0009754979982972145
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  20
+n_slices:  1
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  4.6877309499977855
+seq time:  0.0011230679992877413
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  20
+n_slices:  2
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  6.503303491001134
+seq time:  0.0009904879989335313
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  20
+n_slices:  3
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  8.195380260000093
+seq time:  0.000927550998312654
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  20
+n_slices:  4
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  10.065608960001555
+seq time:  0.0009723399998620152
+
+
+TEST FOR:
+threshold:  0.5
+n_workers:  20
+n_slices:  5
+
+spark result len: 2 seq result len: 2
+spark missing pairs:  set()
+
+spark time:  11.713482213999669
+seq time:  0.0009585839979990851
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  2
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.713481263999711
+seq time:  0.0009942940014298074
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  2
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.978029043002607
+seq time:  0.000973153997620102
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  2
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.375064267998823
+seq time:  0.0009740770001371857
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  2
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.667310392000218
+seq time:  0.000964722999924561
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  2
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.902787370003352
+seq time:  0.0009668279999459628
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  4
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.135881768001127
+seq time:  0.0011593010021897499
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  4
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.6511638199990557
+seq time:  0.0012066090021107811
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  4
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.092779499002063
+seq time:  0.0009693950014479924
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  4
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.4914314369998465
+seq time:  0.0009408619989699218
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  4
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.845459462998406
+seq time:  0.0031549129998893477
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  6
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.290605972000776
+seq time:  0.000958658001763979
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  6
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.878936593999242
+seq time:  0.0009536770012346096
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  6
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.463068157001544
+seq time:  0.0018716969971137587
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  6
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  5.0516730140006985
+seq time:  0.0009764429996721447
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  6
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  5.566210475000844
+seq time:  0.0009631840002839454
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  8
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.3896210579987383
+seq time:  0.004583005997119471
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  8
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.14879908599687
+seq time:  0.0009957030015357304
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  8
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.817771071000607
+seq time:  0.0009641659999033436
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  8
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  5.58862838099958
+seq time:  0.0009718600013002288
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  8
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  6.311780389998603
+seq time:  0.0010491850007383619
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  10
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.740877357999125
+seq time:  0.003137249001156306
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  10
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.473022950001905
+seq time:  0.0011859899968840182
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  10
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  5.42232354600128
+seq time:  0.003978848002589075
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  10
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  6.068204736002372
+seq time:  0.0010689929986256175
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  10
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  6.945699257001252
+seq time:  0.0035182930005248636
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  12
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  3.8213148350005213
+seq time:  0.003245585998229217
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  12
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.848254000000452
+seq time:  0.003935111999453511
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  12
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  5.933053376000316
+seq time:  0.001466470999730518
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  12
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  6.809520454000449
+seq time:  0.0009905570004775655
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  12
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  7.801151866999135
+seq time:  0.0009733619990583975
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  14
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.0498810349999985
+seq time:  0.0026725450006779283
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  14
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  5.26661817400236
+seq time:  0.0023179689997050446
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  14
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  6.409045726999466
+seq time:  0.0024716020016057882
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  14
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  7.592243213999609
+seq time:  0.003957868997531477
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  14
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  8.68045460400026
+seq time:  0.0009655819994804915
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  16
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.248027356999955
+seq time:  0.004138971999054775
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  16
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  5.633616402999905
+seq time:  0.00354462399991462
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  16
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  6.996199361998151
+seq time:  0.003952090999518987
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  16
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  8.350904235998314
+seq time:  0.003526524997141678
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  16
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  9.641986988001008
+seq time:  0.00390625
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  18
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.489712602000509
+seq time:  0.0028844600019510835
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  18
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  5.974921535998874
+seq time:  0.0026546869994490407
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  18
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  7.435672845997033
+seq time:  0.002637176003190689
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  18
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  8.89482603000215
+seq time:  0.003511482002068078
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  18
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  10.562331124001503
+seq time:  0.002817422999214614
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  20
+n_slices:  1
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  4.69199155699971
+seq time:  0.0032154649998119567
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  20
+n_slices:  2
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  6.44928782200077
+seq time:  0.0028663609991781414
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  20
+n_slices:  3
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  7.916002354999364
+seq time:  0.0035126619986840524
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  20
+n_slices:  4
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  9.670505308000429
+seq time:  0.0009864489984465763
+
+
+TEST FOR:
+threshold:  0.8
+n_workers:  20
+n_slices:  5
+
+spark result len: 0 seq result len: 0
+spark missing pairs:  set()
+
+spark time:  11.171671709998918
+seq time:  0.0012809140025638044

@@ -1,4 +1,4 @@
-from utility import data_preparation,document_cleaning,getVectorized
+from utility import data_preparation
 
 import numpy as np
 
@@ -8,13 +8,15 @@ import itertools
 
 import time
 
-def sequential(X, corpus, keys, threshold):
+import pandas as pd
+
+def sequential(doc_matrix, keys, threshold):
     
-    scores = X.dot( X.transpose() )
+    scores = doc_matrix.dot( doc_matrix.transpose() )
 
     def documents_pairs(scores: np.array, threshold:float):
     
-        index__doc_id_map=dict(zip(range(0,len(corpus)),keys))
+        index__doc_id_map=dict(zip(range(0, doc_matrix.get_shape()[0]),keys))
         
         np.fill_diagonal(scores, -1)
         
@@ -26,17 +28,11 @@ def sequential(X, corpus, keys, threshold):
     
     return documents_pairs(scores.toarray(), threshold)
     
-def spark_(X, corpus, keys, threshold, n_slices=5, n_workers=8):
+def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
     
     # Create SparkSession 
     spark = SparkSession.builder.master("local["+str(n_workers)+"]").appName("all-doc-pairs-similarity.com").config("spark.driver.memory", "10g").getOrCreate()
     sc = spark.sparkContext
-    
-    vectorized_docs=[]
-    for index in range(0,len(corpus)):
-        vectorized_docs.append(X.getrow(index))
-        
-    print("SPARK COMPUTATION START")
     
     threshold=sc.broadcast(threshold)
 
@@ -48,7 +44,6 @@ def spark_(X, corpus, keys, threshold, n_slices=5, n_workers=8):
         return doc1.maximum(doc2)
     
     d_star=sc.broadcast(vectorized_docs_rdd.values().reduce(compute_d_star))
-    print("d* COMPUTATION DONE")
     
     def Map(doc_pair):
     
@@ -90,14 +85,12 @@ def spark_(X, corpus, keys, threshold, n_slices=5, n_workers=8):
         return term__doc_ids
 
     term_listDocIds_pairs_rdd=vectorized_docs_rdd.flatMap(Map).groupByKey()
-    print("MY MAP & GROUP BY KEY DONE")
     
     def term_set(doc):
         
         return set(doc.nonzero()[1])
     
     doc_id_set_term=sc.broadcast(dict(vectorized_docs_rdd.mapValues(term_set).collect()))
-    print("TERM SETS DONE")
     
     def filter_pairs(pair):
         
@@ -117,7 +110,6 @@ def spark_(X, corpus, keys, threshold, n_slices=5, n_workers=8):
     doc_ids_pairs_rdd=term_listDocIds_pairs_rdd.flatMap(filter_pairs)
     
     vectorized_docs_broadcast=sc.broadcast(dict(vectorized_docs_rdd.collect()))
-    print("VECTORIZATION DONE")
 
     def Reduce(pair):
         
@@ -135,36 +127,72 @@ def spark_(X, corpus, keys, threshold, n_slices=5, n_workers=8):
 
     similarity_doc_pairs=doc_ids_pairs_rdd.map(Reduce).filter(similar_doc)
     
-    return similarity_doc_pairs.collect()
+    to_return=similarity_doc_pairs.collect()
     
-
-def main(threshold):
+    spark.stop()
     
-    corpus, keys = data_preparation("scifact")
+    return to_return
     
-    corpus=corpus
-    keys=keys
-    
-    cleaned_corpus = document_cleaning(corpus)
-    
-    X=getVectorized(cleaned_corpus)
+def comparison(keys, doc_matrix, vectorized_docs, threshold:float, n_workers, n_slices):
     
     start_spark=time.perf_counter()
-    spark_list=spark_(X,corpus,keys,threshold)
+    spark_list=spark_(vectorized_docs, keys, threshold, n_workers, n_slices)
     end_spark=time.perf_counter()
     
     start_seq=time.perf_counter()
-    seq_list=sequential(X,corpus,keys,threshold)
+    seq_list=sequential(doc_matrix, keys, threshold)
     end_seq=time.perf_counter()
 
-    #print(set(spark_list))
-    #print()
+    print("\nspark result len:",len(spark_list),"seq result len:",len(seq_list))
+    
     missing_spark=set(seq_list)-set(spark_list)
-    print("spark missing: ",missing_spark)
+    print("spark missing pairs: ", missing_spark)
     
-    print("\nspark time: ",end_spark-start_spark)
-    print("seq time: ",end_seq-start_seq)
+    spark_elapsed=end_spark-start_spark
+    seq_elapsed=end_seq-start_seq
     
+    print("\nspark time: ",spark_elapsed)
+    print("seq time: ",seq_elapsed)
+    
+    return spark_elapsed, seq_elapsed
+
+def test():
+    
+    dataset = "scifact"
+    
+    thresholds = [0.3,0.5,0.8]
+    
+    data = {
+            "threshold":[],
+            "n_workers":[],
+            "n_slices":[],
+            "spark_time":[],
+            "seq_time":[]
+    }
+        
+    keys, doc_matrix, vectorized_docs = data_preparation(dataset,100)
+    
+    for threshold in thresholds:
+        
+        for n_workers in [x for x in range(2,18,2)]:
+            
+            for n_slices in range(1,6):
+                
+                print("\n\nTEST FOR:")
+                print("threshold: ",threshold)
+                print("n_workers: ",n_workers)
+                print("n_slices: ",n_slices)
+                
+                spark_time, seq_time = comparison(keys, doc_matrix, vectorized_docs, threshold, n_workers, n_slices)
+                
+                data["threshold"].append(threshold)
+                data["n_workers"].append(n_workers)
+                data["n_slices"].append(n_slices)
+                data["spark_time"].append(spark_time)
+                data["seq_time"].append(seq_time)
+    
+    data=pd.DataFrame.from_dict(data)
+    data.to_parquet("data.parquet")
+        
 if __name__ == '__main__':
-    # This code won't run if this file is imported.
-    main(0.000001)
+    test()

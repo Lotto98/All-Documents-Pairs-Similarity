@@ -1,29 +1,21 @@
 from beir.datasets.data_loader import GenericDataLoader
 from beir import util
-
 import os
 import pathlib
 
 from typing import List, Tuple
+from scipy.sparse import csr_matrix
 
 from multiprocessing import Pool
-
 from tqdm.autonotebook import tqdm
+
+
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 import spacy
 
-def data_preparation(dataset: str) -> Tuple[List[str],List]:
-    """
-    Download the given dataset from beir and transform it in a list of concatenated titles and texts.
-
-    Args:
-        dataset (str): dataset name.
-
-    Returns:
-        List[str]: corpus: each string represent is a document title concatenated with document text.
-    """
+def _data_download(dataset: str) -> Tuple[List[str],List]:
     
     #Download dataset and unzip the dataset
     url = "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/{}.zip".format(dataset)
@@ -38,37 +30,39 @@ def data_preparation(dataset: str) -> Tuple[List[str],List]:
 #load the spacy model for lemmatization 
 _nlp = spacy.load("en_core_web_lg",disable=['parser','ner'])
     
-def cleaner(text: str ):
+def _cleaner(text: str) -> str:
         return " ".join([token.lemma_.lower() for token in _nlp(text) if not token.is_stop and not token.is_punct])
 
-def document_cleaning(corpus):
+def _document_cleaning(corpus: List[str]) -> List[str]:
     with Pool() as p:
-        cleaned_corpus=list(tqdm( p.imap(cleaner, corpus), 
+        cleaned_corpus=list(tqdm( p.imap(_cleaner, corpus), 
                                                 total=len(corpus),
                                                 desc="documents cleaning"))
     return cleaned_corpus
 
-def getVectorized(cleaned_corpus):
-    vectorizer = TfidfVectorizer()
-
-    return vectorizer.fit_transform(cleaned_corpus)
-
-def preprocessing_normal(corpus,keys,sc):
+def _getVectorized(cleaned_corpus: List[str]) -> csr_matrix:
     
-    cleaned_corpus=document_cleaning(corpus)
-    
-    X = getVectorized(cleaned_corpus)
+    return TfidfVectorizer().fit_transform(cleaned_corpus)
 
+def data_preparation(dataset: str, limit:int=None):
+    
+    corpus, keys = _data_download(dataset)
+    
+    if limit is not None:
+        corpus = corpus[0:limit]
+        keys = keys[0:limit]
+    
+    cleaned_corpus = _document_cleaning(corpus)
+    
+    doc_matrix = _getVectorized(cleaned_corpus)
+    
     vectorized_docs=[]
     for index in range(0,len(corpus)):
-        vectorized_docs.append(X.getrow(index))
+        vectorized_docs.append(doc_matrix.getrow(index))
+    
+    return keys, doc_matrix, vectorized_docs
 
-    keys_rdd=sc.parallelize(keys)
-    vectorized_docs_rdd=keys_rdd.zip(sc.parallelize(vectorized_docs))
-
-    return vectorized_docs_rdd
-
-def preprocessing_spark(corpus,keys,sc):
+def preprocessing_spark(corpus, keys, sc):
     corpus_rdd = sc.parallelize(c=corpus)
     keys_rdd = sc.parallelize(keys)
     id_corpus_rdd = keys_rdd.zip(corpus_rdd)
