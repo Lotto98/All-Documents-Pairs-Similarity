@@ -12,6 +12,8 @@ import pandas as pd
 
 def sequential(doc_matrix, keys, threshold):
     
+    start_seq=time.perf_counter()
+    
     scores = doc_matrix.dot( doc_matrix.transpose() )
 
     def documents_pairs(scores: np.array, threshold:float):
@@ -26,7 +28,11 @@ def sequential(doc_matrix, keys, threshold):
         
         return [((index__doc_id_map[index1],index__doc_id_map[index2]),scores[index1,index2]) for index1, index2 in unique_pairs]
     
-    return documents_pairs(scores.toarray(), threshold)
+    to_return=documents_pairs(scores.toarray(), threshold)
+    
+    stop_seq=time.perf_counter()
+    
+    return to_return, (stop_seq-start_seq)
     
 def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
     
@@ -34,64 +40,77 @@ def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
     spark = SparkSession.builder.master("local["+str(n_workers)+"]").appName("all-doc-pairs-similarity.com").config("spark.driver.memory", "10g").getOrCreate()
     sc = spark.sparkContext
     
+    start_spark=time.perf_counter()
+    
     threshold=sc.broadcast(threshold)
+    
+    """
+    for doc in vectorized_docs:
+        
+        sorted_indexes=np.argsort(doc)[::-1]
+        term_iterator=iter(sorted_indexes)
+        
+        current=next(term_iterator, None)
+        
+        while current is not None:
+            print(doc[current])
+            current=next(term_iterator, None)
+        
+        break
+    return
+    """
 
     keys_rdd=sc.parallelize(keys, n_workers*n_slices)
     vectorized_docs_rdd=keys_rdd.zip(sc.parallelize(vectorized_docs, n_workers*n_slices)).persist()
     
-    def compute_d_star(doc1, doc2):
+    def compute_d_star(doc1:np.array, doc2:np.array):
         
-        return doc1.maximum(doc2)
+        return np.maximum(doc1,doc2)
     
     d_star=sc.broadcast(vectorized_docs_rdd.values().reduce(compute_d_star))
     
-    terms=sc.broadcast(np.array(range(0,vectorized_docs[0].get_shape()[1])))
+    #terms=sc.broadcast(np.array(range(0,vectorized_docs[0].get_shape()[1])))
     
     def Map(doc_pair):
     
         id, doc = doc_pair
         
-        sorted_indexes=np.argsort(doc.toarray()[0])[::-1]
+        sorted_indexes = np.argsort(doc)[::-1]
         
-        sorted_doc=doc[:,sorted_indexes]
-        
-        mapping=dict(zip(sorted_indexes,terms.value))
+        sorted_doc = doc[sorted_indexes]
         
         dot_prod=0
         
-        term_iterator=iter(sorted_indexes)
-        current=next(term_iterator,None)
-        prev=None
+        term=0
         
         while(dot_prod<threshold.value):
             
-            if current is None:
+            #se il termine corrente e' 0 allora tutti i termini che eplorero' dopo saranno 0 
+            #e non superero' mai la threshold
+            if term >= doc.shape[0] or (sorted_doc[term]==0): 
                 return []
             
-            if (sorted_doc[0,current]==0):
-                break
+            dot_prod+=((sorted_doc[term])*(d_star.value[sorted_indexes][term]))
             
-            prev=current
-            
-            dot_prod+=(sorted_doc[0,current])*(d_star.value[:,sorted_indexes][0,current])
-            current=next(term_iterator,None)
+            term+=1
         
         term__doc_ids=[]
         
-        if prev is not None:
-            term__doc_ids.append((mapping[prev],id))
+        non_zeros=np.nonzero(sorted_doc)[0] #se il termine ha score 0 non lo appendo perche' non sara' mai un max dell'intersezione
+        non_zeros= non_zeros[non_zeros>=(term-1)]
         
-        while(current is not None):
-            term__doc_ids.append((mapping[current],id))
-            current=next(term_iterator,None)
+        for term in non_zeros:
+            term__doc_ids.append((term,id))
         
         return term__doc_ids
 
     term_listDocIds_pairs_rdd=vectorized_docs_rdd.flatMap(Map).groupByKey()
     
+    print(list(map(Map,zip(keys,vectorized_docs))))
+    
     def term_set(doc):
         
-        return set(doc.nonzero()[1])
+        return np.nonzero(doc)[0]
     
     doc_id_set_term=sc.broadcast(dict(vectorized_docs_rdd.mapValues(term_set).collect()))
     
@@ -102,11 +121,15 @@ def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
         pairs=[]
         
         for id1, id2 in itertools.combinations(id_list,2):
+            common_terms=np.intersect1d(doc_id_set_term.value[id1],
+                                        doc_id_set_term.value[id2],
+                                        assume_unique=True)
             
-            common_terms=doc_id_set_term.value[id1] & doc_id_set_term.value[id2]
+            if (id1=='5836' and id2=='2014909') or (id2=='5836' and id1=='2014909'):
+                print(term_id,"max: ",max(common_terms))
             
-            if len(common_terms)!=0 and max(common_terms)==term_id:
-                pairs.append((id1,id2))
+            #if len(common_terms)!=0 and max(common_terms)==term_id:
+            pairs.append((id1,id2))
 
         return pairs
 
@@ -117,10 +140,14 @@ def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
     def Reduce(pair):
         
         id1,id2 = pair
+            
         
-        similarity=vectorized_docs_broadcast.value[id1].dot(vectorized_docs_broadcast.value[id2].transpose())
+        similarity=np.dot(vectorized_docs_broadcast.value[id1], vectorized_docs_broadcast.value[id2].transpose())
         
-        return ((id1,id2),similarity[0,0])
+        if (id1=='5836' and id2=='2014909') or (id2=='5836' and id1=='2014909'):
+            print(similarity)
+        
+        return ((id1,id2),similarity)
 
     def similar_doc(pair):
         
@@ -130,25 +157,24 @@ def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
 
     similarity_doc_pairs=doc_ids_pairs_rdd.map(Reduce).filter(similar_doc)
     
-    return similarity_doc_pairs.collect()
+    to_return = similarity_doc_pairs.collect()
+    
+    end_spark=time.perf_counter()
+    
+    spark.stop()
+    
+    return to_return, (end_spark-start_spark)
     
 def comparison(keys, doc_matrix, vectorized_docs, threshold:float, n_workers, n_slices):
     
-    start_spark=time.perf_counter()
-    spark_list=spark_(vectorized_docs, keys, threshold, n_workers, n_slices)
-    end_spark=time.perf_counter()
+    spark_list, spark_elapsed=spark_(vectorized_docs, keys, threshold, n_workers, n_slices)
     
-    start_seq=time.perf_counter()
-    seq_list=sequential(doc_matrix, keys, threshold)
-    end_seq=time.perf_counter()
+    seq_list, seq_elapsed=sequential(doc_matrix, keys, threshold)
 
     print("\nspark result len:",len(spark_list),"seq result len:",len(seq_list))
     
-    missing_spark=set(seq_list)-set(spark_list)
-    print("spark missing pairs: ", missing_spark)
-    
-    spark_elapsed=end_spark-start_spark
-    seq_elapsed=end_seq-start_seq
+    missing_spark=set(dict(seq_list).keys())-set(dict(spark_list).keys())
+    print("spark missing pairs: ", missing_spark, len(missing_spark))
     
     print("\nspark time: ",spark_elapsed)
     print("seq time: ",seq_elapsed)
@@ -194,6 +220,6 @@ def test():
     data.to_parquet("data.parquet")
         
 if __name__ == '__main__':
-    test()
-    #keys, doc_matrix, vectorized_docs = data_preparation("scifact",200)
-    #comparison(keys, doc_matrix, vectorized_docs, 0.3, 8, 1)
+    #test()
+    keys, doc_matrix, vectorized_docs = data_preparation("scifact",500)
+    comparison(keys, doc_matrix, vectorized_docs, 0.01, 8, 1)
