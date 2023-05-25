@@ -46,24 +46,21 @@ def _getVectorized(cleaned_corpus: List[str]) -> csr_matrix:
 
 def data_preparation(dataset: str, limit:int=None):
     
-    #corpus, keys = _data_download(dataset)
+    corpus, keys = _data_download(dataset)
     
-    #if limit is not None:
-    #    corpus = corpus[0:limit]
-    #    keys = keys[0:limit]
+    if limit is not None:
+        corpus = corpus[0:limit]
+        keys = keys[0:limit]
     
-    #cleaned_corpus = _document_cleaning(corpus)
+    cleaned_corpus = _document_cleaning(corpus)
     
-    #doc_matrix = _getVectorized(cleaned_corpus)
+    doc_matrix = _getVectorized(cleaned_corpus)
     
+    """
     doc_matrix=random(10,20,0.4,"csr",float,random_state=1)
-    keys=[0,1,2,3,4,5,6,7,8,9]
+    keys=[0,1,2,3,4,5,6,7,8,9]"""
     
-    vectorized_docs=[]
-    for index in range(0,10):
-        vectorized_docs.append(doc_matrix.getrow(index).toarray()[0])
-    
-    return keys, doc_matrix, vectorized_docs
+    return keys, doc_matrix
 
 def preprocessing_spark(corpus, keys, sc):
     corpus_rdd = sc.parallelize(c=corpus)
