@@ -45,21 +45,21 @@ def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
     
     d_star=sc.broadcast(vectorized_docs_rdd.values().reduce(compute_d_star))
     
+    terms=sc.broadcast(np.array(range(0,vectorized_docs[0].get_shape()[1])))
+    
     def Map(doc_pair):
     
         id, doc = doc_pair
         
-        non_zero_terms=doc.nonzero()[1]
+        sorted_indexes=np.argsort(doc.toarray()[0])[::-1]
         
-        sorted_indexes=np.argsort(doc.toarray())[::-1][0]
+        sorted_doc=doc[:,sorted_indexes]
         
-        non_zero_terms_sorted=doc[:,sorted_indexes].nonzero()[1]
-        
-        mapping=dict(zip(non_zero_terms_sorted,non_zero_terms))
+        mapping=dict(zip(sorted_indexes,terms.value))
         
         dot_prod=0
         
-        term_iterator=iter(non_zero_terms_sorted)
+        term_iterator=iter(sorted_indexes)
         current=next(term_iterator,None)
         prev=None
         
@@ -68,9 +68,12 @@ def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
             if current is None:
                 return []
             
+            if (sorted_doc[0,current]==0):
+                break
+            
             prev=current
             
-            dot_prod+=doc[:,sorted_indexes][0,current]*d_star.value[:,sorted_indexes][0,current]
+            dot_prod+=(sorted_doc[0,current])*(d_star.value[:,sorted_indexes][0,current])
             current=next(term_iterator,None)
         
         term__doc_ids=[]
@@ -102,9 +105,9 @@ def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
             
             common_terms=doc_id_set_term.value[id1] & doc_id_set_term.value[id2]
             
-            if max(common_terms)==term_id:
+            if len(common_terms)!=0 and max(common_terms)==term_id:
                 pairs.append((id1,id2))
-        
+
         return pairs
 
     doc_ids_pairs_rdd=term_listDocIds_pairs_rdd.flatMap(filter_pairs)
@@ -127,11 +130,7 @@ def spark_(vectorized_docs, keys, threshold, n_workers=8, n_slices=5):
 
     similarity_doc_pairs=doc_ids_pairs_rdd.map(Reduce).filter(similar_doc)
     
-    to_return=similarity_doc_pairs.collect()
-    
-    spark.stop()
-    
-    return to_return
+    return similarity_doc_pairs.collect()
     
 def comparison(keys, doc_matrix, vectorized_docs, threshold:float, n_workers, n_slices):
     
@@ -160,7 +159,7 @@ def test():
     
     dataset = "scifact"
     
-    thresholds = [0.3,0.5,0.8]
+    thresholds = [0.2, 0.5]
     
     data = {
             "threshold":[],
@@ -170,18 +169,18 @@ def test():
             "seq_time":[]
     }
         
-    keys, doc_matrix, vectorized_docs = data_preparation(dataset,100)
+    keys, doc_matrix, vectorized_docs = data_preparation(dataset,200)
     
     for threshold in thresholds:
         
-        for n_workers in [x for x in range(2,18,2)]:
+        for n_workers in [2, 4, 6, 8, 12, 16]:
             
-            for n_slices in range(1,6):
+            for n_slices in [1,4]:
                 
                 print("\n\nTEST FOR:")
                 print("threshold: ",threshold)
                 print("n_workers: ",n_workers)
-                print("n_slices: ",n_slices)
+                print("n_slices\n: ",n_slices)
                 
                 spark_time, seq_time = comparison(keys, doc_matrix, vectorized_docs, threshold, n_workers, n_slices)
                 
@@ -196,3 +195,5 @@ def test():
         
 if __name__ == '__main__':
     test()
+    #keys, doc_matrix, vectorized_docs = data_preparation("scifact",200)
+    #comparison(keys, doc_matrix, vectorized_docs, 0.3, 8, 1)
