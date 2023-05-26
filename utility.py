@@ -89,9 +89,10 @@ def _getVectorized(cleaned_corpus: List[str]) -> csr_matrix:
 def data_preparation(dataset: str, limit:int=None)->Tuple[List,csr_matrix]:
     """
     Data preparation function. Given a dataset name, it:
-    -downloads the dataset
-    -limits the number of documents
-    -vectorize the documents
+    -downloads the dataset.
+    -clean the dataset
+    -limits the number of documents.
+    -vectorize the documents.
 
     Args:
         dataset (str): dataset's name
