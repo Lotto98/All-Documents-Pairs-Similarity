@@ -1,21 +1,36 @@
 from utility import data_preparation
 
-import numpy as np
-
+#spark
 import findspark
 findspark.init()
 
 from pyspark.conf import SparkConf
 from pyspark.sql import SparkSession
 
+#spark algorithm
 import itertools
+import numpy as np
 
+#test
 import time
 import multiprocessing
-
 import pandas as pd
 
-def sequential(doc_matrix, keys, threshold):
+#typing
+from typing import List, Tuple
+from scipy.sparse import csr_matrix
+
+def sequential(doc_matrix: csr_matrix, keys:list, threshold:float) -> Tuple[List[Tuple[tuple,float]],float]:
+    """_summary_
+
+    Args:
+        doc_matrix (csr_matrix): _description_
+        keys (list): _description_
+        threshold (float): _description_
+
+    Returns:
+        Tuple[ List[Tuple[tuple,float]], float ]: _description_
+    """
     
     start_seq=time.perf_counter()
     
@@ -39,7 +54,19 @@ def sequential(doc_matrix, keys, threshold):
     
     return to_return, (stop_seq-start_seq)
     
-def spark_(doc_matrix:np.array, keys, threshold_broadcast, n_workers=8, n_slices=5):
+def spark_(doc_matrix:np.array, keys, threshold:float, n_workers:int=8, n_slices:int=1) -> Tuple[List[Tuple[tuple,float]],float]:
+    """_summary_
+
+    Args:
+        doc_matrix (np.array): _description_
+        keys (_type_): _description_
+        threshold (float): _description_
+        n_workers (int, optional): _description_. Defaults to 8.
+        n_slices (int, optional): _description_. Defaults to 1.
+
+    Returns:
+        Tuple[List[Tuple[tuple,float]],float]: _description_
+    """
     
     # Create SparkSession 
     spark = SparkSession\
@@ -59,7 +86,7 @@ def spark_(doc_matrix:np.array, keys, threshold_broadcast, n_workers=8, n_slices
     
     start_spark=time.perf_counter()
     
-    threshold_broadcast=sc.broadcast(threshold_broadcast)
+    threshold_broadcast=sc.broadcast(threshold)
     
     keys_rdd=sc.parallelize(keys, n_workers*n_slices)
     vectorized_docs_rdd=keys_rdd.zip(sc.parallelize(doc_matrix, n_workers*n_slices)).persist()
@@ -148,7 +175,19 @@ def spark_(doc_matrix:np.array, keys, threshold_broadcast, n_workers=8, n_slices
     
     return to_return, (end_spark-start_spark)
     
-def comparison(keys, doc_matrix, threshold:float, n_workers, n_slices):
+def comparison(keys, doc_matrix:csr_matrix, threshold:float, n_workers:int, n_slices:int) -> Tuple[float,float]:
+    """_summary_
+
+    Args:
+        keys (_type_): _description_
+        doc_matrix (csr_matrix): _description_
+        threshold (float): _description_
+        n_workers (int): _description_
+        n_slices (int): _description_
+
+    Returns:
+        Tuple[float,float]: _description_
+    """
     
     spark_list, spark_elapsed=spark_(doc_matrix.toarray(), keys, threshold, n_workers, n_slices)
     

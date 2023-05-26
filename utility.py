@@ -1,17 +1,20 @@
+#data download
 from beir.datasets.data_loader import GenericDataLoader
 from beir import util
 import os
 import pathlib
 
+#typing
 from typing import List, Tuple
 from scipy.sparse import csr_matrix
 
+#text cleaning
+import spacy
 from multiprocessing import Pool
 from tqdm.autonotebook import tqdm
 
+#documents vectorization
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-import spacy
 
 def _data_download(dataset: str) -> Tuple[List[str],List]:
     """
