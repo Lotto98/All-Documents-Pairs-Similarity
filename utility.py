@@ -4,18 +4,28 @@ import os
 import pathlib
 
 from typing import List, Tuple
-import numpy as np
-from scipy.sparse import csr_matrix, random
+from scipy.sparse import csr_matrix
 
 from multiprocessing import Pool
 from tqdm.autonotebook import tqdm
-
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 import spacy
 
 def _data_download(dataset: str) -> Tuple[List[str],List]:
+    """
+    Given the dataset's name, download it from beir.
+    The document title is prepended to the document text 
+
+    Args:
+        dataset (str): dataset's name.
+
+    Returns:
+        Tuple[List[str],List]:
+            -corpus (List[str]): list of document texts. Each document is a string.
+            -keys (List): list of document ids.
+    """
     
     #Download dataset and unzip the dataset
     url = "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/{}.zip".format(dataset)
@@ -31,9 +41,27 @@ def _data_download(dataset: str) -> Tuple[List[str],List]:
 _nlp = spacy.load("en_core_web_lg",disable=['parser','ner'])
     
 def _cleaner(text: str) -> str:
-        return " ".join([token.lemma_.lower() for token in _nlp(text) if not token.is_stop and not token.is_punct])
+    """
+    Auxillary function for text cleaning. Given a str, it apply cleaning and lemmatization using spacy library.
+    
+    Args:
+        text (str): text to clean.
 
-def _document_cleaning(corpus: List[str]) -> List[str]:
+    Returns:
+        str: cleaned text.
+    """
+    return " ".join([token.lemma_.lower() for token in _nlp(text) if not token.is_stop and not token.is_punct])
+
+def _corpus_cleaning(corpus: List[str]) -> List[str]:
+    """
+    Corpus cleaning function (parallelized). 
+    
+    Args:
+        corpus (List[str]): corpus to clean.
+
+    Returns:
+        List[str]: cleaned corpus.
+    """
     with Pool() as p:
         cleaned_corpus=list(tqdm( p.imap(_cleaner, corpus), 
                                                 total=len(corpus),
@@ -41,10 +69,36 @@ def _document_cleaning(corpus: List[str]) -> List[str]:
     return cleaned_corpus
 
 def _getVectorized(cleaned_corpus: List[str]) -> csr_matrix:
+    """
+    Corpus vectorization function.
+    Given a cleaned corpus, it coverts it into TF-IDF format using sklearn library.
+    
+    Args:
+        cleaned_corpus (List[str]): cleaned corpus.
+
+    Returns:
+        csr_matrix: vectorized corpus, in Compressed Sparse Row matrix format.
+        Each row represent a document and each colum a specif term in the corpus.
+    """
     
     return TfidfVectorizer().fit_transform(cleaned_corpus)
 
-def data_preparation(dataset: str, limit:int=None):
+def data_preparation(dataset: str, limit:int=None)->Tuple[List,csr_matrix]:
+    """
+    Data preparation function. Given a dataset name, it:
+    -downloads the dataset
+    -limits the number of documents
+    -vectorize the documents
+
+    Args:
+        dataset (str): dataset's name
+        limit (int, optional): limit for the number of documents in the corpus. Defaults to None (take full corpus).
+
+    Returns:
+        Tuple[List,csr_matrix]:
+            -keys (List): list of document ids.
+            -docs_matrix (csr_matrix): vectorized corpus.
+    """
     
     corpus, keys = _data_download(dataset)
     
@@ -52,43 +106,8 @@ def data_preparation(dataset: str, limit:int=None):
         corpus = corpus[0:limit]
         keys = keys[0:limit]
     
-    cleaned_corpus = _document_cleaning(corpus)
+    cleaned_corpus = _corpus_cleaning(corpus)
     
     doc_matrix = _getVectorized(cleaned_corpus)
     
-    """
-    doc_matrix=random(10,20,0.4,"csr",float,random_state=1)
-    keys=[0,1,2,3,4,5,6,7,8,9]"""
-    
     return keys, doc_matrix
-
-def preprocessing_spark(corpus, keys, sc):
-    corpus_rdd = sc.parallelize(c=corpus)
-    keys_rdd = sc.parallelize(keys)
-    id_corpus_rdd = keys_rdd.zip(corpus_rdd)
-
-    #load the spacy model for lemmatization 
-    _nlp_shared = sc.broadcast(_nlp)
-
-    #text cleaning and tokenization
-    def text_cleaning_tokenization( text ):
-        return " ".join(token.lemma_.lower() for token in _nlp_shared.value(text) if not token.is_stop and not token.is_punct)
-
-    cleaned_docs_rdd = id_corpus_rdd.mapValues(text_cleaning_tokenization).persist()
-    
-    def create_vocabulary( v1, v2 ):
-        return set(v1) | set(v2)
-
-    def tokenizer(text:str):
-        return text.split(" ")
-    
-    vocabulary = cleaned_docs_rdd.mapValues(tokenizer).values().reduce(create_vocabulary)
-    
-    vectorirer=sc.broadcast(TfidfVectorizer(vocabulary=vocabulary))
-
-    def vectorize(doc):
-        return vectorirer.value.fit_transform([doc])
-
-    vectorized_docs_rdd=cleaned_docs_rdd.mapValues(vectorize).persist()
-    
-    return vectorized_docs_rdd
