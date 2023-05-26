@@ -89,7 +89,7 @@ def spark_(doc_matrix:np.array, keys:list, threshold:float, n_workers:int=8, n_s
     # Get sparkContextxt
     sc = spark.sparkContext
     
-    #sort the document matrix by term frequency in the entire corpus.
+    #sort the document matrix by maximal term frequency in the entire corpus.
     term_freq = np.sum(doc_matrix>0, axis=0)
     sorted_terms_indexes = np.argsort(term_freq)[::-1]
     doc_matrix=np.array([row[sorted_terms_indexes] for row in doc_matrix])
@@ -278,7 +278,7 @@ def spark_(doc_matrix:np.array, keys:list, threshold:float, n_workers:int=8, n_s
     
     return to_return, (end_spark-start_spark)
     
-def comparison(keys:list, doc_matrix:csr_matrix, threshold:float, n_workers:int, n_slices:int) -> Tuple[float,float]:
+def comparison(keys:list, doc_matrix:csr_matrix, threshold:float, n_workers:int, n_slices:int) -> Tuple[float,float,set]:
     """_summary_
 
     Args:
@@ -289,9 +289,10 @@ def comparison(keys:list, doc_matrix:csr_matrix, threshold:float, n_workers:int,
         n_slices (int): number of data divisions for each worker.
 
     Returns:
-        Tuple[float,float]:
+        Tuple[float,float,set]:
             -spark execution time (float).
             -seq execution time (float).
+            -set of missing spark document id pairs. (set)
     """
     
     #spark computation
@@ -310,9 +311,9 @@ def comparison(keys:list, doc_matrix:csr_matrix, threshold:float, n_workers:int,
     print("\nspark time: ",spark_elapsed)
     print("seq time: ",seq_elapsed)
     
-    return spark_elapsed, seq_elapsed
+    return spark_elapsed, seq_elapsed, missing_spark
 
-def test():
+def test() -> None:
     
     dataset = "nfcorpus"
     
@@ -321,7 +322,8 @@ def test():
             "n_workers":[],
             "n_slices":[],
             "spark_time":[],
-            "seq_time":[]
+            "seq_time":[],
+            "missing":[]
     }
         
     keys, doc_matrix = data_preparation(dataset,1000)
@@ -338,13 +340,14 @@ def test():
                 print("n_slices: ",n_slices,"\n")
                 
                 with multiprocessing.Pool(1) as p:
-                    spark_time, seq_time=p.apply(comparison, (keys, doc_matrix, threshold, n_workers, n_slices,))
+                    spark_time, seq_time, missing = p.apply(comparison, (keys, doc_matrix, threshold, n_workers, n_slices,))
                 
                 data["threshold"].append(threshold)
                 data["n_workers"].append(n_workers)
                 data["n_slices"].append(n_slices)
                 data["spark_time"].append(spark_time)
                 data["seq_time"].append(seq_time)
+                data["missing"].append(missing)
     
     data=pd.DataFrame.from_dict(data)
     data.to_parquet("data.parquet")
