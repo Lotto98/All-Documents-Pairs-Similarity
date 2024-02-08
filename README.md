@@ -1,6 +1,6 @@
 # All-Documents-Pairs-Similarity
 
-Third progect for ALGORITHMS & LEARNING OVER MASSIVE DATA exam. (Master's degree)
+Third assignment for ALGORITHMS & LEARNING OVER MASSIVE DATA exam. (Master's degree)
 
 To Be Delivered:
 
